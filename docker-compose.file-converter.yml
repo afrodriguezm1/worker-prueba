@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+
+  converter-worker:
+    build: './converter-worker'
+    user: root
+    volumes:
+      - ./Files:/app/Files
+    env_file:
+      - .env

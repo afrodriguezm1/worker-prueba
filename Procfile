@@ -1,0 +1,1 @@
+celery: celery -A converter-worker.tasks worker --loglevel=info

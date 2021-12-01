@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx
+    depends_on:
+      - securityms
+      - gestor-tareas
+    ports:
+      - "80:8080"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  
+  securityms:
+    build: securityms
+    volumes:
+      - ./securityms:/app
+    env_file:
+      - .env
+
+  gestor-tareas:
+    build: ./gestor_tareas/
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./gestor_tareas:/app
+      - ./Files:/app/Files
+    env_file:
+      - .env
