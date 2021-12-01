@@ -24,6 +24,14 @@ if(celery_conect == "rabbit-ec2"):
     app = Celery('tasks',
              broker=f"amqp://{rabbit_user}:{rabbit_password}@{rabbit_hostname}:5672",
              backend='rpc://')
+
+elif (celery_conect == "rabbit-heroku"):
+
+    rabbit_url = os.environ.get("RABBIT_URL")
+
+    app = Celery('tasks',
+             broker=f"{rabbit_url}",
+             backend='rpc://')
              
 elif (celery_conect == "sqs"):
     
@@ -34,10 +42,6 @@ elif (celery_conect == "sqs"):
              broker=f"sqs://{queue_url}",
              backend='rpc://',
              task_default_queue=f'{queue_name}')
-
-#access_key = os.environ.get("ACCESS_KEY")
-#secrest_key = os.environ.get("SECRET_KEY")
-
 
 fileManager = FileManager.get_instance()
 
