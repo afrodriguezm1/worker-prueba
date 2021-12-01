@@ -19,6 +19,8 @@ if(celery_conect == "rabbit-ec2"):
     rabbit_password = os.environ.get("RABBITMQ_DEFAULT_PASS")
     rabbit_hostname = os.environ.get("RABBITMQ_HOSTNAME")
 
+    print(rabbit_user, rabbit_password, rabbit_hostname)
+
     app = Celery('tasks',
              broker=f"amqp://{rabbit_user}:{rabbit_password}@{rabbit_hostname}:5672",
              backend='rpc://')
