@@ -51,12 +51,15 @@ def convert_task(filename, newFormat, userId, taskId, timecreated):
     timestart = round(time.time())
     diff = timestart - timecreated
     logger.info(f'Solicitud de conversión - {filename} a {newFormat}')
-    resp = convert_validation(filename, newFormat, userId)
-    timeend = round(time.time())
-    #requests.post(f"{log_host}/logTransaction", json={"taskId": taskId,"timecreated": timecreated,"timestart": timestart,"diff": diff,"timeend": timeend})
-    if resp:
-        logger.info(f"Conversión de archvio {filename} a {newFormat}")
-        requests.post(f"{gestor_tareas_host}/updateTask",json={"taskId": taskId})
+    try:
+        resp = convert_validation(filename, newFormat, userId)
+        timeend = round(time.time())
+        #requests.post(f"{log_host}/logTransaction", json={"taskId": taskId,"timecreated": timecreated,"timestart": timestart,"diff": diff,"timeend": timeend})
+        if resp:
+            logger.info(f"Conversión de archvio {filename} a {newFormat}")
+            requests.post(f"{gestor_tareas_host}/updateTask",json={"taskId": taskId})
+    except Exception:
+        raise
 
 
 def convert_validation(filename, newFormat, userId):
